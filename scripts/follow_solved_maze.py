@@ -40,6 +40,8 @@ from motoman_msgs.srv import ReadSingleIO, WriteSingleIO
 ## Quaternion Tools
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
+## Maze Runner Specific
+import csv
 
 #####################################################
 ## SUPPORT CLASSES AND FUNCTIONS
@@ -80,7 +82,7 @@ class moveManipulator(object):
     self.object_name = ''
     self.robot = moveit_commander.RobotCommander()
     self.scene = moveit_commander.PlanningSceneInterface()
-    self.group_name = "bot_mh5"         # CHANGE THIS TO MATCH YOUR ROBOT'S MOVEIT CONFIG!
+    self.group_name = "bot_mh5l"         # CHANGE THIS TO MATCH YOUR ROBOT'S MOVEIT CONFIG!
     self.move_group = moveit_commander.MoveGroupCommander(self.group_name)
     self.display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
                                                    moveit_msgs.msg.DisplayTrajectory,
@@ -262,7 +264,7 @@ class moveManipulator(object):
 
   def attach_object(self, timeout=4):
     ## Attaching object to the Robot
-    grasping_group = 'bot_mh5'
+    grasping_group = 'bot_mh5l'
     touch_links = self.robot.get_link_names(group=grasping_group)
 
     # Attach object to Robot EEF
@@ -315,7 +317,7 @@ def main():
   try:
     print ""
     print "----------------------------------------------------------"
-    print "           Mouse Maze                                     "
+    print "           Maze Runner                                     "
     print "----------------------------------------------------------"
     print "Example developed by ACBUYNAK. Spring 2021"
     #print "Note: You will be unable to interrup program if running\n from terminal. Alternatively use IDLE console."
@@ -324,17 +326,19 @@ def main():
 
 
     ## Initial Values & Controls
-    # ############################
     robot = moveManipulator()
     robot.set_accel(0.2)
     robot.set_vel(0.2)
 
 
-    ## Path Planning & Execution
-    # ############################
+    ## Path Planning & Execution ##
+    # Load solution path from CSV
+    with open('maze_sample/tiny_path_soln.csv', newline='') as csvfile:
+      data = list(csv.reader(csvfile, delimiter=','))
+    print(data)
 
     # Move to MFG Default Position: All-Zeros
-    raw_input('Go to All-Zeros Position <enter>')
+    #raw_input('Go to All-Zeros Position <enter>')
     robot.goto_all_zeros()
 
     #  Cartesian Pose Instruction
@@ -345,7 +349,14 @@ def main():
 
 
 
-    ## Return to ALL-ZEROS for Best Practices
+
+
+
+
+
+
+
+    ## CLEAN UP & CLOSE ##
     # ############################
     raw_input('Per Best Practices, return to All-Zeros Joint Position <enter>')
     robot.goto_all_zeros()
