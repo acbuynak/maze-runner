@@ -31,6 +31,11 @@ class transformations:
     Intended to function for 3-dimensions frames ONLY
     """
 
+    ## If Translation Matrix is List, Convert
+    if type(matr_translate) is list:
+      matr_translate = np.matrix(matr_translate)
+      print("Changed translation vector from input 'list' to 'np.matrix'")
+
     ## Evaluate Inputs. Check if acceptable size.
     if not matr_rotate.shape == (3, 3):
       raise Exception("Error Generating Transformation Matrix. Incorrectly sized inputs.")
@@ -40,7 +45,7 @@ class transformations:
     ## Reformat Inputs to common shape
     if matr_translate.shape == (1, 3):
       matr_translate = np.transpose(matr_translate)
-      print("Reformatted Translation Vector")
+      print("Transposed input translation vector")
 
     ## Build Homogeneous Transformation matrix using reformatted inputs
     # Currently includes flexibility to different sized inputs. Wasted process time, but flexible for future.
