@@ -320,7 +320,7 @@ def main():
     print "           Maze Runner                                     "
     print "----------------------------------------------------------"
     print "Example developed by ACBUYNAK. Spring 2021"
-    #print "Note: You will be unable to interrup program if running\n from terminal. Alternatively use IDLE console."
+    #print "Note: You will be unable to interrupt program if running\n from terminal. Alternatively use IDLE console."
     print "Press Enter to advance script when prompted."
     print ""
 
