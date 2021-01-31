@@ -22,12 +22,37 @@ def prepare_path_transforms_list(path_source, scaling_factor=0.100):
   return path_scaled
 
 
+def prepare_path_tf_ready(path_list):
+  """
+  Convenience Function to Convert Path from a List of xyz points to Transformation Matrices 
+  :param path_list: 
+  :return: List of Transformation Matrices
+  """
+  import numpy as np
+  from transformations import transformations
+  tf = transformations()
+
+  rot_default = np.identity(3)
+  new_list = []
+
+  for vector in path_list:
+    item = np.matrix(vector)
+    new_list.append( tf.generateTransMatrix(rot_default, item) )
+
+  return new_list
 
 
 
 def main():
+
   #Process Path into Flat Vector Plane
-  motion_ready_path = prepare_path('tiny_path_soln.csv')
+  path_as_xyz = prepare_path_transforms_list('tiny_path_soln.csv')
+  #print(path_as_xyz)
+
+
+  # Convert Cartesian Points to Transformation List
+  path_as_tf_matrices = prepare_path_tf_ready(path_as_xyz)
+  #print(path_as_tf_matrices)
 
   # Generate Visual
   from visualizations import plot_path_vectors, plot_path_transforms
