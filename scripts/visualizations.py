@@ -20,7 +20,13 @@
 #####################################################
 
 
-def plot_path_vectors(d2p):
+def plot_path_vectors(d2p, limits=None):
+  """"
+  Plots Path of Vectors
+  :param d2p: Array where Row = Point, Columns = XYZ coordinates
+  :param limits: Optional. List of three tuples for XYZ limits
+  """
+
   import matplotlib.pyplot as plt
   from mpl_toolkits.mplot3d import Axes3D
 
@@ -39,6 +45,16 @@ def plot_path_vectors(d2p):
   ax.set_xlabel('X-Axis')
   ax.set_ylabel('Y-Axis')
   ax.set_zlabel('Z-Axis')
+
+  # Plot Ranges
+#  if not limits is None:
+#    xlim = limits[0]
+#    ylim = limits[1]
+#    zlim = limits[2]
+
+#    ax.set_xlim(xlim)
+#    ax.set_ylim(ylim)
+#    ax.set_zlim(zlim)
 
   # Display Plot
   plt.show()
