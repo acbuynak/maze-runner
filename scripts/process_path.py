@@ -25,7 +25,7 @@ def prepare_path_transforms_list(path_source, scaling_factor=0.100):
 def prepare_path_tf_ready(path_list):
   """
   Convenience Function to Convert Path from a List of xyz points to Transformation Matrices 
-  :param path_list: 
+  :param path_list: Input must be list type with cell formatting of XYZ
   :return: List of Transformation Matrices
   """
   import numpy as np
@@ -49,15 +49,29 @@ def main():
   path_as_xyz = prepare_path_transforms_list('tiny_path_soln.csv')
   #print(path_as_xyz)
 
-
   # Convert Cartesian Points to Transformation List
   path_as_tf_matrices = prepare_path_tf_ready(path_as_xyz)
   #print(path_as_tf_matrices)
 
+  # Test for new Transform
+  import numpy as np
+  from transformations import transformations
+  tf = transformations()
+
+  body_rot = np.identity(3)
+  #body_rot = np.matrix('0 -1 0; 1 0 0; 0 0 1')   # rot(z,90deg)
+  body_transl = np.matrix('0; 0; 0')
+  body_frame = tf.generateTransMatrix(body_rot, body_transl)
+  print(body_frame)
+
+  new_path = tf.convertPath2FixedFrame(path_as_tf_matrices, body_frame)
+
   # Generate Visual
   from visualizations import plot_path_vectors, plot_path_transforms
-  plot_path_vectors(path_as_xyz)
-  plot_path_transforms(path_as_tf_matrices)
+  #limits = [ [2,2] , [2,2] , [0.5,0.5] ]
+  #plot_path_vectors(path_as_xyz)
+  #plot_path_transforms(path_as_tf_matrices)
+  plot_path_transforms(new_path)
 
 
 if __name__ == '__main__':
