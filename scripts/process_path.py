@@ -5,7 +5,7 @@ def prepare_path_transforms_list(path_source, scaling_factor=0.100):
   import numpy as np
 
   # Load solution path from CSV into numpy Array
-  with open(path_source, newline='') as csvfile:
+  with open(path_source) as csvfile:
     dataList = list(csv.reader(csvfile, delimiter=','))
 
   path = np.array(dataList[0:], dtype=np.float)
