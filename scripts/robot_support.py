@@ -1,24 +1,5 @@
 #!/usr/bin/env python
 
-#####################################################
-##   Mouse Maze : Move Robotic Arm Through Maze    ##
-##                                                 ##
-##   Capabilities Demonstrated                     ##
-##   * Planar Maze Following                       ##
-##                                                 ##
-#####################################################
-
-# Software License Agreement (BSD License)
-#
-# Copyright (c) 2021, The Ohio State University
-# Center for Design and Manufacturing Excellence (CDME)
-# The Artificially Intelligent Manufacturing Systems Lab (AIMS)
-# All rights reserved.
-#
-# Author: Adam Buynak
-
-#####################################################
-
 ### IMPORTS
 #
 # `moveit_commander` namespace allows Python MoveIt interfaces.
@@ -309,63 +290,3 @@ class moveManipulator(object):
 
     # If we exited the while loop without returning then we timed out
     return False
-
-
-
-
-def main():
-  try:
-    print ""
-    print "----------------------------------------------------------"
-    print "           Maze Runner                                     "
-    print "----------------------------------------------------------"
-    print "Example developed by ACBUYNAK. Spring 2021"
-    #print "Note: You will be unable to interrupt program if running\n from terminal. Alternatively use IDLE console."
-    print "Press Enter to advance script when prompted."
-    print ""
-
-
-    ## Initial Values & Controls
-    robot = moveManipulator()
-    robot.set_accel(0.2)
-    robot.set_vel(0.2)
-
-
-    ## Path Planning & Execution ##
-    # Load solution path from CSV
-    with open('maze_sample/tiny_path_soln.csv', newline='') as csvfile:
-      data = list(csv.reader(csvfile, delimiter=','))
-    print(data)
-
-    # Move to MFG Default Position: All-Zeros
-    #raw_input('Go to All-Zeros Position <enter>')
-    robot.goto_all_zeros()
-
-    #  Cartesian Pose Instruction
-    raw_input('Go to Example Cart Pose <enter>')
-    pose_cart = [0.3,-0.4,0.8,0,radians(90),0]
-    robot.goto_Quant_Orient(pose_cart)
-
-
-
-
-
-
-
-
-
-
-
-    ## CLEAN UP & CLOSE ##
-    # ############################
-    raw_input('Per Best Practices, return to All-Zeros Joint Position <enter>')
-    robot.goto_all_zeros()
-
-    print "============ Complete!"
-  except rospy.ROSInterruptException:
-    return
-  except KeyboardInterrupt:
-    return
-
-if __name__ == '__main__':
-  main()
