@@ -78,7 +78,6 @@ def plot_path_transforms(d2p):
   vectors = np.zeros((len(d2p),3))
   for i, transform in enumerate(d2p):
     vectors[i,:] = transform[:-1,3]
-  print(vectors)
 
   # Path Plotted
   for p in d2p:

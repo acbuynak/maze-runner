@@ -43,35 +43,51 @@ def prepare_path_tf_ready(path_list):
 
 
 
+
 def main():
+
+  """
+    DEMONSTRATION CODE
+  - Shows how to use the path processing tools included in this file.
+  """
+  print("-------DEMONSTRATION CODE---------")
+
+  # Visualize Demo w/ Visualizations Module
+  from visualizations import plot_path_vectors, plot_path_transforms
+
+
 
   #Process Path into Flat Vector Plane
   path_as_xyz = prepare_path_transforms_list('tiny_path_soln.csv')
-  #print(path_as_xyz)
+
+  print(" Visual: Path as XYZ in Flat Vector Plane")
+  plot_path_vectors(path_as_xyz)
+
+
 
   # Convert Cartesian Points to Transformation List
   path_as_tf_matrices = prepare_path_tf_ready(path_as_xyz)
-  #print(path_as_tf_matrices)
 
-  # Test for new Transform
+  print(" Visual: Path as Homogeneous Transformation Matrices (list thereof)")
+  plot_path_transforms(path_as_tf_matrices)
+
+
+
+  # Generate Example Transformation Matrix
   import numpy as np
   from transformations import transformations
   tf = transformations()
 
-  body_rot = np.identity(3)
-  #body_rot = np.matrix('0 -1 0; 1 0 0; 0 0 1')   # rot(z,90deg)
+  #body_rot = np.identity(3)
+  body_rot = np.matrix('0 -1 0; 1 0 0; 0 0 1')   # rot(z,90deg)
   body_transl = np.matrix('0; 0; 0')
   body_frame = tf.generateTransMatrix(body_rot, body_transl)
-  print(body_frame)
 
   new_path = tf.convertPath2FixedFrame(path_as_tf_matrices, body_frame)
 
-  # Generate Visual
-  from visualizations import plot_path_vectors, plot_path_transforms
-  #limits = [ [2,2] , [2,2] , [0.5,0.5] ]
-  #plot_path_vectors(path_as_xyz)
-  #plot_path_transforms(path_as_tf_matrices)
+  print(" Visual: Rigid Body Transformation Applied")
   plot_path_transforms(new_path)
+
 
 
 if __name__ == '__main__':
